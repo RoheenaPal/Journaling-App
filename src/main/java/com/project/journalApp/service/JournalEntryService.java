@@ -3,14 +3,12 @@ package com.project.journalApp.service;
 import com.project.journalApp.entity.JournalEntry;
 import com.project.journalApp.repository.JournalEntryRepository;
 
-import java.lang.StackWalker.Option;
 import java.util.List;
 import java.util.Optional;
 
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.web.bind.annotation.RequestBody;
 
 @Component
 public class JournalEntryService {
