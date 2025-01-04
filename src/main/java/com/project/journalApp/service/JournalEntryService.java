@@ -10,6 +10,7 @@ import java.util.Optional;
 import org.bson.types.ObjectId;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 @Component
 public class JournalEntryService {
@@ -19,11 +20,19 @@ public class JournalEntryService {
     @Autowired
     private UserService userService;
 
+    @Transactional
     public void saveEntry(JournalEntry journalEntry, String username) {
-        User user = userService.findByUsername(username);
-        JournalEntry saved = journalEntryRepository.save(journalEntry);
-        user.getJournalEntries().add(saved);
-        userService.saveEntry(user);
+        System.out.println(username);
+        try {
+            User user = userService.findByUsername(username);
+            System.out.println(user.getUsername());
+            JournalEntry saved = journalEntryRepository.save(journalEntry);
+            user.getJournalEntries().add(saved);
+            userService.saveEntry(user);
+        } catch (Exception e) {
+            System.out.println(e);
+            throw new RuntimeException("An error occured while saving the entry", e);
+        }
     }
 
     public void saveEntry(JournalEntry journalEntry) {
