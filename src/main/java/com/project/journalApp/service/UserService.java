@@ -1,8 +1,6 @@
 package com.project.journalApp.service;
 
-import com.project.journalApp.entity.JournalEntry;
 import com.project.journalApp.entity.User;
-import com.project.journalApp.repository.JournalEntryRepository;
 import com.project.journalApp.repository.UserRepository;
 
 import java.util.List;
