@@ -22,10 +22,8 @@ public class JournalEntryService {
 
     @Transactional
     public void saveEntry(JournalEntry journalEntry, String username) {
-        System.out.println(username);
         try {
             User user = userService.findByUsername(username);
-            System.out.println(user.getUsername());
             JournalEntry saved = journalEntryRepository.save(journalEntry);
             user.getJournalEntries().add(saved);
             userService.saveEntry(user);
