@@ -10,10 +10,12 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import jakarta.annotation.Nonnull;
+import lombok.Builder;
 import lombok.Data;
 
 @Document(collection = "users")
 @Data
+@Builder
 public class User {
     @Id
     private ObjectId id;
