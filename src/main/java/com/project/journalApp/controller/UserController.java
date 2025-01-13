@@ -1,7 +1,5 @@
 package com.project.journalApp.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.http.HttpStatus;
@@ -14,8 +12,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.project.journalApp.api.response.GreetingsResponse;
 import com.project.journalApp.entity.User;
 import com.project.journalApp.repository.UserRepository;
+import com.project.journalApp.service.GreetingsService;
 import com.project.journalApp.service.UserService;
 
 @RestController
@@ -27,13 +27,18 @@ public class UserController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private GreetingsService greetingsService;
+
     @GetMapping
-    public ResponseEntity<?> getAllUsers() {
-        List<User> all = userService.getAll();
-        if (all != null && !all.isEmpty()) {
-            return new ResponseEntity<>(all, HttpStatus.OK);
+    public ResponseEntity<?> greetingsToUser() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        GreetingsResponse greetingsResponse = greetingsService.getWeather("Mumbai");
+        String greeting = "";
+        if (greetingsResponse != null) {
+            greeting = ", Weather feels like " + greetingsResponse.getMain().getFeels_like();
         }
-        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        return new ResponseEntity<>("Hi " + authentication.getName() + greeting, HttpStatus.OK);
     }
 
     @PutMapping
