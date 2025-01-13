@@ -8,19 +8,23 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.project.journalApp.api.response.GreetingsResponse;
+import com.project.journalApp.cache.AppCache;
+import com.project.journalApp.constants.Placeholders;
 
 @Service
 public class GreetingsService {
     @Value("${weather.api.key}")
     private String apiKey;
 
-    private static final String API = "https://api.openweathermap.org/data/2.5/weather?q=CITY&units=metric&appid=API_KEY";
-
     @Autowired
     private RestTemplate restTemplate;
 
+    @Autowired
+    private AppCache appCache;
+
     public GreetingsResponse getWeather(String city) {
-        String finalAPI = API.replace("CITY", city).replace("API_KEY", apiKey);
+        String finalAPI = appCache.appCache.get(AppCache.keys.WEATHER_API.toString()).replace(Placeholders.CITY, city)
+                .replace(Placeholders.API_KEY, apiKey);
         ResponseEntity<GreetingsResponse> response = restTemplate.exchange(finalAPI, HttpMethod.GET, null,
                 GreetingsResponse.class);
         GreetingsResponse body = response.getBody();
