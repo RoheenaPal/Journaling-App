@@ -3,6 +3,8 @@ package com.project.journalApp.service;
 import com.project.journalApp.entity.User;
 import com.project.journalApp.repository.UserRepository;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
@@ -14,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
+@Slf4j
 public class UserService {
     @Autowired
     private UserRepository userRepository;
@@ -27,6 +30,11 @@ public class UserService {
             userRepository.save(user);
             return true;
         } catch (Exception e) {
+            log.error("check");
+            log.trace("check");
+            log.debug("check");
+            log.info("check");
+            log.warn("check");
             return false;
         }
     }
